@@ -1,0 +1,49 @@
+@import "../styles/variables";
+
+body {
+  margin: 0;
+  font-style: normal;
+  background-color: $color-line;
+  font-family: $poppins-helvetica;
+  height: 200vh;
+  width: 100%;
+  font-weight: 500;
+}
+.ant-notification-notice {
+  z-index: 10000;
+  border-radius: 10px;
+  background: #2d34a8;
+  .ant-notification-close-x {
+    // background: url(/images/icons/close-x.png) no-repeat;
+    background-size: 100%;
+    padding: 5px;
+  }
+  .ant-notification-notice-content {
+    z-index: 10000;
+    padding: 15px;
+    border-radius: 10px;
+    .ant-notification-notice-message {
+      color: #000;
+      font-size: rem(13px) !important;
+    }
+    .ant-notification-notice-description {
+      font-size: rem(15px) !important;
+      font-family: 15px;
+      font-weight: bold;
+    }
+  }
+
+}
+.ant-message-notice-content {
+  z-index: 10000;
+  border-radius: 10px;
+  font-size: rem(13px);
+  color: #000;
+  .ant-message-custom-content {
+    padding: 15px;
+    border: 1px solid rgba(79, 109, 147, 0.5);
+    border-radius: 10px;
+    font-family: 15px;
+    font-weight: bold;
+  }
+}
