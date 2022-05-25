@@ -1,10 +1,9 @@
+import LayoutTemplate from "./components/layout";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <b>Hello world </b>
-      </header>
+      <LayoutTemplate />
     </div>
   );
 }
