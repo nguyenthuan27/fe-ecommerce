@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
@@ -8,34 +8,31 @@ const HeroSlider = props => {
 
     const data = props.data
 
-    const timeOut = props.timeOut ? props.timeOut : 3000
+    const delay = props.timeOut ? props.timeOut : 3000
 
     const [activeSlide, setActiveSlide] = useState(0);
 
-    const nextSlide = useCallback(
-        () => {
-            const index = activeSlide + 1 === data.length ? 0 : activeSlide + 1
-            setActiveSlide(index)
-        },
-        [activeSlide, data],
-    )
-
-    const prevSlide = () => {
-        const index = activeSlide - 1 < 0 ? data.length - 1 : activeSlide - 1
-        setActiveSlide(index)
+    const timeoutRef = useRef(null);
+    const resetTimeout = () => {
+    if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+    }
     }
 
     useEffect(() => {
-        if (props.auto) {
-            const slideAuto = setInterval(() => {
-                nextSlide()
-            }, timeOut);
-            return () => {
-                clearInterval(slideAuto)
-            }
-        }
-    }, [nextSlide, timeOut, props])
+    resetTimeout();
+    timeoutRef.current = setTimeout(
+        () =>
+        setActiveSlide((prevIndex) =>
+            prevIndex === data.length - 1 ? 0 : prevIndex + 1
+        ),
+        delay
+    );
 
+    return () => {
+        resetTimeout();
+    };
+    }, [activeSlide]);
     return (
         <div className="hero-slider">
             {
@@ -46,16 +43,18 @@ const HeroSlider = props => {
             {
                 props.control ? (
                     <div className="hero-slider__control">
-                        <div className="hero-slider__control__item" onClick={prevSlide}>
-                            <i className="bx bx-chevron-left"></i>
-                        </div>
                         <div className="hero-slider__control__item">
-                            <div className="index">
-                                {activeSlide + 1}/{data.length}
+                            <div className="indexs">
+                                {data.map((_, idx) => (
+                                    <div
+                                    key={idx}
+                                    className={`index${activeSlide === idx ? " active" : ""}`}
+                                    onClick={() => {
+                                        setActiveSlide(idx);
+                                    }}
+                                    ></div>
+                                ))}
                             </div>
-                        </div>
-                        <div className="hero-slider__control__item" onClick={nextSlide}>
-                            <i className="bx bx-chevron-right"></i>
                         </div>
                     </div>
                 ) : null

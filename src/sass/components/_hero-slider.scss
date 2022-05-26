@@ -118,10 +118,9 @@
             }
 
             img {
-                height: 100vh;
                 position: absolute;
-                bottom: 0;
-                right: 0;
+                bottom: 20%;
+                left: 8%;
                 transform: scale(0) rotate(65deg);
                 transition: transform 0.5s
                     cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -183,8 +182,22 @@
                 color: $main-color;
             }
 
+            .indexs{
+                text-align: center;
+            }
             .index {
-                font-size: 1.5rem;
+                display: inline-block;
+                height: 20px;
+                width: 20px;
+                border-radius: 50%;
+            
+                cursor: pointer;
+                margin: 15px 7px 0px;
+            
+                background-color: #c4c4c4;
+            }
+            .index.active {
+                background-color: #6a0dad;
             }
         }
     }
