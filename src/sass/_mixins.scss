@@ -7,6 +7,7 @@
 @mixin mobile {
     @media only screen and (max-width: $mobile-width) {
         @content;
+        
     }
 }
 
