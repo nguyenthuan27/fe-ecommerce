@@ -40,38 +40,45 @@ const CartItem = props => {
     }
 
     return (
-        <div className="cart__item" ref={itemRef}>
-            <div className="cart__item__image">
-                <img src={item.product.image01} alt="" />
-            </div>
-            <div className="cart__item__info">
-                <div className="cart__item__info__name">
-                    <Link to={`/catalog/${item.slug}`}>
-                        {`${item.product.title} - ${item.color} - ${item.size}`}
-                    </Link>
-                </div>
-                <div className="cart__item__info__price">
-                    {numberWithCommas(item.price)}
-                </div>
-                <div className="cart__item__info__quantity">
-                    <div className="product__info__item__quantity">
-                        <div className="product__info__item__quantity__btn" onClick={() => updateQuantity('-')}>
-                            <i className="bx bx-minus"></i>
-                        </div>
-                        <div className="product__info__item__quantity__input">
-                            {quantity}
-                        </div>
-                        <div className="product__info__item__quantity__btn" onClick={() => updateQuantity('+')}>
-                            <i className="bx bx-plus"></i>
-                        </div>
-                    </div>
-                </div>
-                <div className="cart__item__del">
-                    <i className='bx bx-trash' onClick={() => removeCartItem()}></i>
-                </div>
-            </div>
+      <div className="cart__item" ref={itemRef}>
+        <div className="cart__item__image">
+          <img src={item.product.image01} alt="" />
         </div>
-    )
+        <div className="cart__item__info">
+          <div className="cart__item__info__name">
+            <Link to={`/catalog/${item.slug}`}>
+              {`${item.product.title} - ${item.color} - ${item.size}`}
+            </Link>
+          </div>
+          <div className={`cart__item__info__color bg-${item.color}`}></div>
+          <div className="cart__item__info__quantity">
+            <div className="product__info__item__quantity">
+              <div
+                className="product__info__item__quantity__btn"
+                onClick={() => updateQuantity("-")}
+              >
+                <i className="bx bx-minus"></i>
+              </div>
+              <div className="product__info__item__quantity__input">
+                {quantity}
+              </div>
+              <div
+                className="product__info__item__quantity__btn"
+                onClick={() => updateQuantity("+")}
+              >
+                <i className="bx bx-plus"></i>
+              </div>
+            </div>
+          </div>
+          <div className="cart__item__info__price">
+            {numberWithCommas(item.price * item.quantity)} VND
+          </div>
+          <div className="cart__item__del">
+            <i className="bx bx-trash" onClick={() => removeCartItem()}></i>
+          </div>
+        </div>
+      </div>
+    );
 }
 
 CartItem.propTypes = {

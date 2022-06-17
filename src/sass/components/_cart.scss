@@ -1,12 +1,12 @@
 .cart {
-    @include flex(flex-start, flex-start);
-
+    padding-top: 50px;
+    flex: flex-wrap;
     @include mobile {
         flex-wrap: wrap;
     }
 
     &__list {
-        width: 60%;
+        width: 100%;
 
         @include mobile {
             width: 100%;
@@ -17,15 +17,14 @@
         padding: 20px;
         margin-right: 30px;
         margin-top: 30px;
-        box-shadow: $box-shadow;
-        position: sticky;
-        top: calc(#{$header-shrink-height} + 20px);
+        // position: sticky;
+        // top: calc(#{$header-shrink-height} + 20px);
 
         @include mobile {
             width: 100%;
             margin-right: 0;
             margin-bottom: 30px;
-            position: unset;
+            // position: unset;
         }
 
         &__txt {
@@ -34,6 +33,7 @@
             }
 
             p {
+                padding-top: 30px;
                 font-size: 1.25rem;
             }
 
@@ -49,7 +49,12 @@
                 }
             }
         }
-
+        &__hr {
+            margin: 0 15px;
+            height: 2px;
+            background-color: rgb(0, 0, 0);
+            margin-bottom: 20px;
+        }
         &__btn {
             & > * {
                 margin-bottom: 20px;
@@ -85,20 +90,27 @@
 
             &__name {
                 width: 40%;
-
+                
                 @include mobile {
                     width: 100%;
                 }
             }
-
+            
+            &__color{
+                width: 40px;
+                height: 40px;
+                border-radius: 100%;
+                border: 1px solid #000;
+            }
             &__name,
             &__price {
+                font-weight: 600;
                 font-size: 1.25rem;
             }
         }
 
         &__del {
-            font-size: 1.5rem;
+            font-size: 2.2rem;
 
             i {
                 cursor: pointer;
