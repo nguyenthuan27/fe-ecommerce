@@ -51,9 +51,6 @@ const Header = () => {
 
   return (
     <div className="header" ref={headerRef}>
-      {pathname === "/Login" ? (
-        <></>
-      ) : (
         <>
           <div className="container">
             <div className="header__logo">
@@ -99,7 +96,6 @@ const Header = () => {
             </div>
           </div>
         </>
-      )}
     </div>
   );
 };
