@@ -20,4 +20,18 @@ export default {
 
     return res.data;
   },
+  getListProductForHome: async () => {
+    const res = await customAxios({
+      method: "get",
+      url: `${serverEndpoint}/shoeswear/product/getlistproductforhome`,
+    });
+    return res.data;
+  },
+  getDetailProductById: async (id) => {
+    const res = await customAxios({
+      method: "get",
+      url: `${serverEndpoint}/shoeswear/product/getproductdetail?id=${id}`,
+    });
+    return res.data;
+  }
 };

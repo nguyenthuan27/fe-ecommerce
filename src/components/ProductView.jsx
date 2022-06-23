@@ -15,8 +15,12 @@ const ProductView = (props) => {
   const dispatch = useDispatch();
 
   let product = props?.product || "";
-  console.log("=>>>", product?.list
-                ?.map((i) => i)[0]?.data[0].datadetail?.map((item, index) => item));
+  console.log(
+    "=>>>",
+    product?.list
+      ?.map((i) => i)[0]
+      ?.data[0].datadetail?.map((item, index) => item)
+  );
   const [previewImg, setPreviewImg] = useState(
     product?.listimg?.map((item) => item)[0]
   );
@@ -36,7 +40,6 @@ const ProductView = (props) => {
       setQuantity(quantity - 1 < 1 ? 1 : quantity - 1);
     }
   };
-  const notify = () => toast("Here is your toast.");
   useEffect(() => {
     setPreviewImg(product?.listimg?.map((item) => item)[0]);
     setQuantity(1);
@@ -61,11 +64,13 @@ const ProductView = (props) => {
   const addToCart = () => {
     if (check()) {
       let newItem = {
-        slug: product.slug,
+        slug: product.productid,
         color: color,
         size: size,
-        price: product.price,
+        price: product.fromprice,
         quantity: quantity,
+        title: product.productname,
+        image: product.listimg[0],
       };
       if (dispatch(addItem(newItem))) {
         toast.success("Thêm thành công vào giỏ hàng của bạn !!!");

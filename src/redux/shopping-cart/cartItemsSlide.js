@@ -15,14 +15,19 @@ export const cartItemsSlice = createSlice({
             const duplicate = state.value.filter(e => e.slug === newItem.slug && e.color === newItem.color && e.size === newItem.size)
             if (duplicate.length > 0) {
                 state.value = state.value.filter(e => e.slug !== newItem.slug || e.color !== newItem.color || e.size !== newItem.size)
-                state.value = [...state.value, {
+                state.value = [
+                  ...state.value,
+                  {
                     id: duplicate[0].id,
                     slug: newItem.slug,
                     color: newItem.color,
                     size: newItem.size,
                     price: newItem.price,
-                    quantity: newItem.quantity + duplicate[0].quantity
-                }]
+                    quantity: newItem.quantity + duplicate[0].quantity,
+                    title: newItem.title,
+                    image: newItem.image,
+                  },
+                ];
             } else {
                 state.value = [...state.value, {
                     ...action.payload,
@@ -36,14 +41,19 @@ export const cartItemsSlice = createSlice({
             const item = state.value.filter(e => e.slug === newItem.slug && e.color === newItem.color && e.size === newItem.size)
             if (item.length > 0) {
                 state.value = state.value.filter(e => e.slug !== newItem.slug || e.color !== newItem.color || e.size !== newItem.size)
-                state.value = [...state.value, {
+                state.value = [
+                  ...state.value,
+                  {
                     id: item[0].id,
                     slug: newItem.slug,
                     color: newItem.color,
                     size: newItem.size,
                     price: newItem.price,
-                    quantity: newItem.quantity
-                }]
+                    quantity: newItem.quantity,
+                    title: newItem.title,
+                    image: newItem.image,
+                  },
+                ];
             }
             localStorage.setItem('cartItems', JSON.stringify(state.value.sort((a, b) => a.id > b.id ? 1 : (a.id < b.id ? -1 : 0))))
         },
