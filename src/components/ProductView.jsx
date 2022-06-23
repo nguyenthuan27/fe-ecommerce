@@ -15,12 +15,6 @@ const ProductView = (props) => {
   const dispatch = useDispatch();
 
   let product = props?.product || "";
-  console.log(
-    "=>>>",
-    product?.list
-      ?.map((i) => i)[0]
-      ?.data[0].datadetail?.map((item, index) => item)
-  );
   const [previewImg, setPreviewImg] = useState(
     product?.listimg?.map((item) => item)[0]
   );

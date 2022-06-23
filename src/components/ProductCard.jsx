@@ -36,7 +36,7 @@ const ProductCard = props => {
             size="sm"
             icon="bx bx-cart"
             animate={true}
-            onClick={() => dispatch(set(props.data.productid))}
+            onClick={() => dispatch(set(props?.data?.productid))}
           >
             chọn mua
           </Button>

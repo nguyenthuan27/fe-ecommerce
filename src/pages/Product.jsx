@@ -6,22 +6,21 @@ import Grid from '../components/Grid'
 import ProductCard from '../components/ProductCard'
 import ProductView from '../components/ProductView'
 import API from "../connect-api/products";
-import productData from '../assets/fake-data/products'
 import { useState } from 'react'
 
 const Product = props => {
 
-    const [product, setProduct] = useState("");
+    const [products, setProducts] = useState([]);
+    const [productDetail, setProductDetail] = useState('');
     const getProducts = async () => {
         let res = await API.getListProductAll();
         const data = res.result.listproductall.find(
           (item) => (item.productid = props.match.params.slug)
         );
-        setProduct(data);
+        setProducts(res.result.listproductall);
+        setProductDetail(data);
     };
 
-
-    const relatedProducts = productData.getProducts(8)
 
     React.useEffect(() => {
         getProducts()
@@ -29,17 +28,17 @@ const Product = props => {
     }, [])
 
     return (
-      <Helmet title={product.title}>
+      <Helmet title={productDetail?.productname}>
         <Section>
           <SectionBody>
-            <ProductView product={product} />
+            <ProductView product={productDetail} />
           </SectionBody>
         </Section>
         <Section>
           <SectionTitle>Khám phá thêm</SectionTitle>
           <SectionBody>
             <Grid col={4} mdCol={2} smCol={1} gap={20}>
-              {relatedProducts.map((item, index) => (
+              {products?.map((item, index) => (
                 <ProductCard key={index} data={item} />
               ))}
             </Grid>
