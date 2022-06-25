@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-
-import Button from "./Button";
-
 import { remove } from "../redux/payment-modal/paymentModalSlice";
 import API from "../connect-api/products";
 import numberWithCommas from "../utils/numberWithCommas";
 import { updateItem } from "../redux/shopping-cart/cartItemsSlide";
+import Select, { createFilter } from "react-select";
 
 const PaymentModal = () => {
   const isVariable = useSelector((state) => state.paymentModal?.value);
   const cartItems = useSelector((state) => state.cartItems.value);
   const [totalPrice, setTotalPrice] = useState(0);
-
-  console.log("Modal payment", cartItems);
+  const [listProvince, setListProvince] = useState([]);
+  const [selectedValue, setSelectedValue] = useState(3);
   const dispatch = useDispatch();
 
   const [listProduct, setListProduct] = useState(undefined);
@@ -38,6 +36,21 @@ const PaymentModal = () => {
     for (let [key, value] of formData.entries()) {
       console.log(key, ":", value);
     }
+  };
+  const getProvince = async () => {
+    const data = await API.getProvince();
+    const list = data.map((item) => ({
+      value: item.codename,
+      label: item.name,
+    }));
+    setListProvince(list);
+  };
+  useEffect(() => {
+    getProvince();
+  }, []);
+  const handleChange = (e) => {
+    console.log(e.label);
+    setSelectedValue(e.value);
   };
   return (
     <div
@@ -101,37 +114,9 @@ const PaymentModal = () => {
               </div>
               <div className="form-control">
                 <label for="checkout-city">City</label>
-                <div>
-                  <span class="fa fa-building"></span>
-                  <input
-                    type="text"
-                    name="checkout-city"
-                    id="checkout-city"
-                    placeholder="Your city..."
-                  />
-                </div>
+                <Select options={listProvince} onChange={handleChange} />
               </div>
               <div className="form-group">
-                <div className="form-control">
-                  <label for="checkout-country">Country</label>
-                  <div>
-                    <span class="fa fa-globe"></span>
-                    <input
-                      type="text"
-                      name="checkout-country"
-                      id="checkout-country"
-                      placeholder="Your country..."
-                      list="country-list"
-                    />
-                    <datalist id="country-list">
-                      <option value="India"></option>
-                      <option value="USA"></option>
-                      <option value="Russia"></option>
-                      <option value="Japan"></option>
-                      <option value="Egypt"></option>
-                    </datalist>
-                  </div>
-                </div>
                 <div className="form-control">
                   <label for="checkout-postal">Postal code</label>
                   <div>
