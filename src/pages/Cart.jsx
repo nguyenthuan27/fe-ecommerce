@@ -12,7 +12,6 @@ import numberWithCommas from "../utils/numberWithCommas";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cartItems.value);
-
   const [cartProducts, setCartProducts] = useState(
     productData.getCartItemsInfo(cartItems)
   );
@@ -22,7 +21,6 @@ const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    console.log("cartProducts", cartProducts);
     setCartProducts(productData.getCartItemsInfo(cartItems));
     setTotalPrice(
       cartItems.reduce(

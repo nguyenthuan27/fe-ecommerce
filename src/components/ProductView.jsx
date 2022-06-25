@@ -14,22 +14,10 @@ import numberWithCommas from "../utils/numberWithCommas";
 const ProductView = (props) => {
   const dispatch = useDispatch();
 
-  let product = props.product;
-
-  if (product === undefined)
-    product = {
-      title: "",
-      price: "",
-      image01: null,
-      image02: null,
-      categorySlug: "",
-      colors: [],
-      slug: "",
-      size: [],
-      description: "",
-    };
-
-  const [previewImg, setPreviewImg] = useState(product.image01);
+  let product = props?.product || "";
+  const [previewImg, setPreviewImg] = useState(
+    product?.listimg?.map((item) => item)[0]
+  );
 
   const [descriptionExpand, setDescriptionExpand] = useState(false);
 
@@ -46,9 +34,8 @@ const ProductView = (props) => {
       setQuantity(quantity - 1 < 1 ? 1 : quantity - 1);
     }
   };
-  const notify = () => toast("Here is your toast.");
   useEffect(() => {
-    setPreviewImg(product.image01);
+    setPreviewImg(product?.listimg?.map((item) => item)[0]);
     setQuantity(1);
     setColor(undefined);
     setSize(undefined);
@@ -71,11 +58,13 @@ const ProductView = (props) => {
   const addToCart = () => {
     if (check()) {
       let newItem = {
-        slug: product.slug,
+        slug: product.productid,
         color: color,
         size: size,
-        price: product.price,
+        price: product.fromprice,
         quantity: quantity,
+        title: product.productname,
+        image: product.listimg[0],
       };
       if (dispatch(addItem(newItem))) {
         toast.success("Thêm thành công vào giỏ hàng của bạn !!!");
@@ -111,15 +100,19 @@ const ProductView = (props) => {
           <div className="product__images__list">
             <div
               className="product__images__list__item"
-              onClick={() => setPreviewImg(product.image01)}
+              onClick={() =>
+                setPreviewImg(product?.listimg?.map((item) => item)[0])
+              }
             >
-              <img src={product.image01} alt="" />
+              <img src={product?.listimg?.map((item) => item)[0]} alt="" />
             </div>
             <div
               className="product__images__list__item"
-              onClick={() => setPreviewImg(product.image02)}
+              onClick={() =>
+                setPreviewImg(product?.listimg?.map((item) => item)[1])
+              }
             >
-              <img src={product.image02} alt="" />
+              <img src={product?.listimg?.map((item) => item)[1]} alt="" />
             </div>
           </div>
           <div className="product__images__main">
@@ -133,7 +126,7 @@ const ProductView = (props) => {
             <div className="product-description__title">Chi tiết sản phẩm</div>
             <div
               className="product-description__content"
-              dangerouslySetInnerHTML={{ __html: product.description }}
+              dangerouslySetInnerHTML={{ __html: product?.note }}
             ></div>
             <div className="product-description__toggle">
               <Button
@@ -146,44 +139,51 @@ const ProductView = (props) => {
           </div>
         </div>
         <div className="product__info">
-          <h1 className="product__info__title">{product.title}</h1>
+          <h1 className="product__info__title">{product?.productname}</h1>
           <div className="product__info__item">
             <span className="product__info__item__price">
-              {numberWithCommas(product.price)}
+              {numberWithCommas(product?.fromprice || 0)}
             </span>
           </div>
           <div className="product__info__item">
             <div className="product__info__item__title">Màu sắc</div>
             <div className="product__info__item__list">
-              {product.colors.map((item, index) => (
-                <div
-                  key={index}
-                  className={`product__info__item__list__item ${
-                    color === item ? "active" : ""
-                  }`}
-                  onClick={() => setColor(item)}
-                >
-                  <div className={`circle bg-${item}`}></div>
-                </div>
-              ))}
+              {product?.list
+                ?.map((i) => i)[0]
+                ?.data[1].datadetail?.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`product__info__item__list__item ${
+                      color === item?.option_value_name ? "active" : ""
+                    }`}
+                    onClick={() => setColor(item?.option_value_name)}
+                  >
+                    <div
+                      className={`circle bg-${item?.option_value_name}`}
+                      style={{ background: `${item?.option_value_name}` }}
+                    ></div>
+                  </div>
+                ))}
             </div>
           </div>
           <div className="product__info__item">
             <div className="product__info__item__title">Kích cỡ</div>
             <div className="product__info__item__list">
-              {product.size.map((item, index) => (
-                <div
-                  key={index}
-                  className={`product__info__item__list__item ${
-                    size === item ? "active" : ""
-                  }`}
-                  onClick={() => setSize(item)}
-                >
-                  <span className="product__info__item__list__item__size">
-                    {item}
-                  </span>
-                </div>
-              ))}
+              {product?.list
+                ?.map((i) => i)[0]
+                ?.data[0].datadetail?.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`product__info__item__list__item ${
+                      size === item?.option_value_name ? "active" : ""
+                    }`}
+                    onClick={() => setSize(item?.option_value_name)}
+                  >
+                    <span className="product__info__item__list__item__size">
+                      {item?.option_value_name}
+                    </span>
+                  </div>
+                ))}
             </div>
           </div>
           <div className="product__info__item">
@@ -219,7 +219,7 @@ const ProductView = (props) => {
           <div className="product-description__title">Chi tiết sản phẩm</div>
           <div
             className="product-description__content"
-            dangerouslySetInnerHTML={{ __html: product.description }}
+            dangerouslySetInnerHTML={{ __html: product?.note }}
           ></div>
           <div className="product-description__toggle">
             <Button

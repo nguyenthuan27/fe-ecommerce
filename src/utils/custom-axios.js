@@ -1,6 +1,5 @@
 import axios from "axios";
 import { message } from "antd";
-import { isAuthenticatedUser } from "../utils/auth";
 const customAxios = axios.create();
 
 customAxios.interceptors.request.use(
@@ -30,7 +29,7 @@ customAxios.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("error", error);
+    console.log("error1", error);
     // message.error(error.response?.data?.error?.message || error.message);
     if (axios.isCancel(error)) {
     }

@@ -11,14 +11,15 @@ const CartItem = props => {
 
     const dispatch = useDispatch()
 
+    console.log("cart Item",props);
     const itemRef = useRef(null)
 
     const [item, setItem] = useState(props.item)
-    const [quantity, setQuantity] = useState(props.item.quantity)
+    const [quantity, setQuantity] = useState(props?.item?.quantity)
 
     useEffect(() => {
         setItem(props.item)
-        setQuantity(props.item.quantity)
+        setQuantity(props?.item?.quantity)
     }, [props.item])
 
     const updateQuantity = (opt) => {
@@ -42,15 +43,15 @@ const CartItem = props => {
     return (
       <div className="cart__item" ref={itemRef}>
         <div className="cart__item__image">
-          <img src={item.product.image01} alt="" />
+          <img src={item?.image} alt="" />
         </div>
         <div className="cart__item__info">
           <div className="cart__item__info__name">
-            <Link to={`/catalog/${item.slug}`}>
-              {`${item.product.title} - ${item.color} - ${item.size}`}
+            <Link to={`/catalog/${item?.slug}`}>
+              {`${item.title}  - ${item.size}`}
             </Link>
           </div>
-          <div className={`cart__item__info__color bg-${item.color}`}></div>
+          <div className={`cart__item__info__color bg-${item.color}`} style={{background:`${item.color}`}}></div>
           <div className="cart__item__info__quantity">
             <div className="product__info__item__quantity">
               <div
