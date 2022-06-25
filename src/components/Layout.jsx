@@ -7,6 +7,7 @@ import Footer from './Footer'
 import ProductViewModal from './ProductViewModal'
 
 import Routes from '../routes/Routes'
+import PaymentModal from './PaymentModal'
 
 const Layout = () => {
     return (
@@ -21,6 +22,7 @@ const Layout = () => {
                     </div>
                     <Footer/>
                     <ProductViewModal/>
+                    <PaymentModal />
                 </div>
             )}/>
         </BrowserRouter>

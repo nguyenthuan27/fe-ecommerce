@@ -77,17 +77,19 @@ const ProductView = (props) => {
   const goToCart = () => {
     if (check()) {
       let newItem = {
-        slug: product.slug,
+        slug: product.productid,
         color: color,
         size: size,
-        price: product.price,
+        price: product.fromprice,
         quantity: quantity,
+        title: product.productname,
+        image: product.listimg[0],
       };
       if (dispatch(addItem(newItem))) {
         dispatch(remove());
         props.history.push("/cart");
       } else {
-        alert("Fail");
+        toast.error("Fail");
       }
     }
   };

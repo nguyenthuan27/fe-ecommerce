@@ -14,7 +14,6 @@ import numberWithCommas from '../utils/numberWithCommas'
 const ProductCard = props => {
 
     const dispatch = useDispatch()
-
     return (
       <div className="product-card">
         <Link to={`/catalog/${props?.data?.productid}`}>

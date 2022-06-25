@@ -11,7 +11,6 @@ const CartItem = props => {
 
     const dispatch = useDispatch()
 
-    console.log("cart Item",props);
     const itemRef = useRef(null)
 
     const [item, setItem] = useState(props.item)

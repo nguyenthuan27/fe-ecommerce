@@ -6,16 +6,17 @@ import { Link } from "react-router-dom";
 import Helmet from "../components/Helmet";
 import CartItem from "../components/CartItem";
 import Button from "../components/Button";
-
+import { set } from "../redux/payment-modal/paymentModalSlice";
 import productData from "../assets/fake-data/products";
 import numberWithCommas from "../utils/numberWithCommas";
+import { useDispatch } from "react-redux";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cartItems.value);
   const [cartProducts, setCartProducts] = useState(
     productData.getCartItemsInfo(cartItems)
   );
-
+  const dispatch = useDispatch();
   const [totalProducts, setTotalProducts] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(0);
@@ -52,10 +53,11 @@ const Cart = () => {
               <span>{numberWithCommas(Number(totalPrice))} VND</span>
             </div>
           </div>
-          <div className="cart__info__hr">
-          </div>
+          <div className="cart__info__hr"></div>
           <div className="cart__info__btn">
-            <Button size="block">Đặt hàng</Button>
+            <Button size="block" onClick={() => dispatch(set(true))}>
+              Đặt hàng
+            </Button>
           </div>
         </div>
       </div>
