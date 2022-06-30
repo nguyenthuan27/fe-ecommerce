@@ -20,6 +20,7 @@ export const cartItemsSlice = createSlice({
                   {
                     id: duplicate[0].id,
                     slug: newItem.slug,
+                    optionId: newItem.optionId,
                     color: newItem.color,
                     size: newItem.size,
                     price: newItem.price,
@@ -46,6 +47,7 @@ export const cartItemsSlice = createSlice({
                   {
                     id: item[0].id,
                     slug: newItem.slug,
+                    optionId: newItem.optionId,
                     color: newItem.color,
                     size: newItem.size,
                     price: newItem.price,

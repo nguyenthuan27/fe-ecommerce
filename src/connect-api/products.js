@@ -40,5 +40,14 @@ export default {
        url: `${serverProvince}`,
      });
     return res.data;
+  },
+
+  createBill: async (data) => {
+    const res = await customAxios({
+      method: "post",
+      url: `${serverEndpoint}/bill/create`,
+      data: data,
+    });
+    return res.data;
   }
 };

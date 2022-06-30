@@ -1,88 +1,82 @@
-import React, { useState, useRef, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 
-import { useDispatch } from 'react-redux'
-import { updateItem, removeItem } from '../redux/shopping-cart/cartItemsSlide'
+import { useDispatch } from "react-redux";
+import { updateItem, removeItem } from "../redux/shopping-cart/cartItemsSlide";
 
-import numberWithCommas from '../utils/numberWithCommas'
-import { Link } from 'react-router-dom'
+import numberWithCommas from "../utils/numberWithCommas";
+import { Link } from "react-router-dom";
 
-const CartItem = props => {
+const CartItem = (props) => {
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+  const itemRef = useRef(null);
 
-    const itemRef = useRef(null)
+  const [item, setItem] = useState(props.item);
+  const [quantity, setQuantity] = useState(props?.item?.quantity);
 
-    const [item, setItem] = useState(props.item)
-    const [quantity, setQuantity] = useState(props?.item?.quantity)
+  useEffect(() => {
+    setItem(props.item);
+    setQuantity(props?.item?.quantity);
+  }, [props.item]);
 
-    useEffect(() => {
-        setItem(props.item)
-        setQuantity(props?.item?.quantity)
-    }, [props.item])
-
-    const updateQuantity = (opt) => {
-        if (opt === '+') {
-            dispatch(updateItem({...item, quantity: quantity + 1}))
-        }
-        if (opt === '-') {
-            dispatch(updateItem({...item, quantity: quantity - 1 === 0 ? 1 : quantity - 1}))
-        }
+  const updateQuantity = (opt) => {
+    if (opt === "+") {
+      dispatch(updateItem({ ...item, quantity: quantity + 1 }));
     }
-
-    // const updateCartItem = () => {
-    //     dispatch(updateItem({...item, quantity: quantity}))
-    // }
-
-    const removeCartItem = () => {
-        console.log('removeCartItem')
-        dispatch(removeItem(item))
+    if (opt === "-") {
+      dispatch(
+        updateItem({ ...item, quantity: quantity - 1 === 0 ? 1 : quantity - 1 })
+      );
     }
+  };
 
-    return (
-      <div className="cart__item" ref={itemRef}>
-        <div className="cart__item__image">
-          <img src={item?.image} alt="" />
+  const removeCartItem = () => {
+    console.log("removeCartItem");
+    dispatch(removeItem(item));
+  };
+
+  return (
+    <>
+      <div className="card">
+        <div className="card-img">
+          <div className="card-image">
+            <img src={item.image} alt="" />
+          </div>
         </div>
-        <div className="cart__item__info">
-          <div className="cart__item__info__name">
-            <Link to={`/catalog/${item?.slug}`}>
-              {`${item.title}  - ${item.size}`}
-            </Link>
-          </div>
-          <div className={`cart__item__info__color bg-${item.color}`} style={{background:`${item.color}`}}></div>
-          <div className="cart__item__info__quantity">
-            <div className="product__info__item__quantity">
-              <div
-                className="product__info__item__quantity__btn"
-                onClick={() => updateQuantity("-")}
-              >
-                <i className="bx bx-minus"></i>
-              </div>
-              <div className="product__info__item__quantity__input">
-                {quantity}
-              </div>
-              <div
-                className="product__info__item__quantity__btn"
-                onClick={() => updateQuantity("+")}
-              >
-                <i className="bx bx-plus"></i>
-              </div>
-            </div>
-          </div>
-          <div className="cart__item__info__price">
+        <div className="card-details">
+          <Link to={`/catalog/${item?.id}`}>
+            <div className="card-name">{item.title}</div>
+          </Link>
+          <div className="card-price">
             {numberWithCommas(item.price * item.quantity)} VND
+          </div>
+          <div className="card-wheel">
+            SIZE: <span>{item.size}</span>
+          </div>
+          <div className="card-wheel">
+            COLOR:{" "}
+            <div
+              className="color"
+              style={{ background: `${item.color}` }}
+            ></div>
+          </div>
+          <div class="card-wheel1">
+            <button onClick={() => updateQuantity("-")}>-</button>
+            <span> {quantity}</span>
+            <button onClick={() => updateQuantity("+")}>+</button>
           </div>
           <div className="cart__item__del">
             <i className="bx bx-trash" onClick={() => removeCartItem()}></i>
           </div>
         </div>
       </div>
-    );
-}
+    </>
+  );
+};
 
 CartItem.propTypes = {
-    item: PropTypes.object
-}
+  item: PropTypes.object,
+};
 
-export default CartItem
+export default CartItem;

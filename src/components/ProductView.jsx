@@ -56,6 +56,7 @@ const ProductView = (props) => {
   };
 
   const addToCart = () => {
+    console.log(product);
     if (check()) {
       let newItem = {
         slug: product.productid,
@@ -75,11 +76,13 @@ const ProductView = (props) => {
   };
 
   const goToCart = () => {
+    console.log(product);
     if (check()) {
       let newItem = {
         slug: product.productid,
         color: color,
         size: size,
+        // optionId: product.optionId,
         price: product.fromprice,
         quantity: quantity,
         title: product.productname,
