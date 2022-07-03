@@ -21,9 +21,15 @@ const ProductView = (props) => {
 
   const [descriptionExpand, setDescriptionExpand] = useState(false);
 
-  const [color, setColor] = useState(undefined);
+  const [color, setColor] = useState({
+    option_value_id: "",
+    option_value_name: "",
+  });
 
-  const [size, setSize] = useState(undefined);
+  const [size, setSize] = useState({
+    option_value_id: "",
+    option_value_name: "",
+  });
 
   const [quantity, setQuantity] = useState(1);
 
@@ -60,8 +66,10 @@ const ProductView = (props) => {
     if (check()) {
       let newItem = {
         slug: product.productid,
-        color: color,
-        size: size,
+        color: color.option_value_name,
+        colorId: color.option_value_id,
+        size: size.option_value_name,
+        sizeId: size.option_value_id,
         price: product.fromprice,
         quantity: quantity,
         title: product.productname,
@@ -99,7 +107,6 @@ const ProductView = (props) => {
 
   return (
     <>
-      <Toaster toastOptions={{ position: "top-center" }} />
       <div className="product">
         <div className="product__images">
           <div className="product__images__list">
@@ -159,9 +166,16 @@ const ProductView = (props) => {
                   <div
                     key={index}
                     className={`product__info__item__list__item ${
-                      color === item?.option_value_name ? "active" : ""
+                      color?.option_value_name === item?.option_value_name
+                        ? "active"
+                        : ""
                     }`}
-                    onClick={() => setColor(item?.option_value_name)}
+                    onClick={() =>
+                      setColor({
+                        option_value_id: item?.option_value_id,
+                        option_value_name: item?.option_value_name,
+                      })
+                    }
                   >
                     <div
                       className={`circle bg-${item?.option_value_name}`}
@@ -180,9 +194,16 @@ const ProductView = (props) => {
                   <div
                     key={index}
                     className={`product__info__item__list__item ${
-                      size === item?.option_value_name ? "active" : ""
+                      size?.option_value_name === item?.option_value_name
+                        ? "active"
+                        : ""
                     }`}
-                    onClick={() => setSize(item?.option_value_name)}
+                    onClick={() =>
+                      setSize({
+                        option_value_id: item?.option_value_id,
+                        option_value_name: item?.option_value_name,
+                      })
+                    }
                   >
                     <span className="product__info__item__list__item__size">
                       {item?.option_value_name}

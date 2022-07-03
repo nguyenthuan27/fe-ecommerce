@@ -8,7 +8,8 @@ import CartItem from "../components/CartItem";
 import Select, { createFilter } from "react-select";
 import numberWithCommas from "../utils/numberWithCommas";
 import { useDispatch } from "react-redux";
-
+import toast, { Toaster } from "react-hot-toast";
+import { clearCart } from "../redux/shopping-cart/cartItemsSlide";
 const Cart = () => {
   const [listProvince, setListProvince] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -40,26 +41,47 @@ const Cart = () => {
       getDataForm[key] = value;
     }
     console.log(cartItems);
-    const data = {
-      bill: {
-        customer_id: null,
-        voucher_id: null,
-        total_price: totalPrice,
-        amount: quantity,
-        address: getDataForm.address + "-" + selectedValue,
-        receiver_name: getDataForm.name,
-        email: getDataForm.email,
-      },
-      list_product_variant: [
-        {
-          variant_id: 9,
-          amount: 1,
+    let myCart = [];
+    for (let i = 0; i < cartItems.length; i++) {
+      const data = {
+        id: cartItems[i].slug,
+        listOption: [cartItems[i].colorId, cartItems[i].sizeId],
+      };
+      const getDetail = await API.geProductDetail(data);
+      const product = getDetail.result?.listproductall[0];
+      console.log("product", product);
+      if (product?.quantity < cartItems[i]?.quantity) {
+        toast.error(`Số lượng số ${i + 1}  không đủ`);
+      } else if (!product) {
+        toast.error(`Sản phẩm  số ${i + 1} đã được bán hết`);
+      } else if (product?.quantity >= cartItems[i]?.quantity && product) {
+        myCart.push({
+          variant_id: product?.variant,
+          amount: cartItems[i]?.quantity,
+        });
+      }
+    }
+    if (myCart.length > 0) {
+      const data = {
+        bill: {
+          customer_id: null,
+          voucher_id: null,
+          total_price: totalPrice,
+          amount: quantity,
+          address: getDataForm.address + "-" + selectedValue,
+          receiver_name: getDataForm.name,
+          email: getDataForm.email,
         },
-      ],
-    };
-    console.log(data);
-    // const result = await API.createBill(data);
-    // console.log(result);
+        list_product_variant: myCart,
+      };
+      console.log(data);
+      const result = await API.createBill(data);
+      console.log(result);
+      toast.success("Đặt hàng thanh công");
+      dispatch(clearCart());
+    } else {
+      toast.error("Đặt hàng thất bại");
+    }
   };
   const getProvince = async () => {
     const data = await API.getProvince();

@@ -1,6 +1,6 @@
 import { customAxios } from "../utils/custom-axios";
 const serverEndpoint = process.env.REACT_APP_API_URL;
-const serverProvince = process.env.REACT_APP_API_PROVINCE
+const serverProvince = process.env.REACT_APP_API_PROVINCE;
 export const handleResponse = (res) => {
   const data = res?.data?.data;
   return data;
@@ -35,19 +35,31 @@ export default {
     return res.data;
   },
   getProvince: async () => {
-     const res = await customAxios({
-       method: "get",
-       url: `${serverProvince}`,
-     });
+    const res = await customAxios({
+      method: "get",
+      url: `${serverProvince}`,
+    });
     return res.data;
   },
 
   createBill: async (data) => {
     const res = await customAxios({
       method: "post",
-      url: `${serverEndpoint}/bill/create`,
+      url: `${serverEndpoint}/shoeswear/bill/create`,
       data: data,
     });
     return res.data;
-  }
+  },
+
+  geProductDetail: async (data) => {
+    const res = await customAxios({
+      method: "post",
+      url: `${serverEndpoint}/shoeswear/product/getproductdetail`,
+      data: {
+        id: data.id,
+        list_opition: data.listOption,
+      },
+    });
+    return res.data;
+  },
 };

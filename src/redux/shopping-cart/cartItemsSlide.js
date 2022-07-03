@@ -15,20 +15,7 @@ export const cartItemsSlice = createSlice({
             const duplicate = state.value.filter(e => e.slug === newItem.slug && e.color === newItem.color && e.size === newItem.size)
             if (duplicate.length > 0) {
                 state.value = state.value.filter(e => e.slug !== newItem.slug || e.color !== newItem.color || e.size !== newItem.size)
-                state.value = [
-                  ...state.value,
-                  {
-                    id: duplicate[0].id,
-                    slug: newItem.slug,
-                    optionId: newItem.optionId,
-                    color: newItem.color,
-                    size: newItem.size,
-                    price: newItem.price,
-                    quantity: newItem.quantity + duplicate[0].quantity,
-                    title: newItem.title,
-                    image: newItem.image,
-                  },
-                ];
+                state.value = [...state.value, newItem];
             } else {
                 state.value = [...state.value, {
                     ...action.payload,
@@ -42,20 +29,7 @@ export const cartItemsSlice = createSlice({
             const item = state.value.filter(e => e.slug === newItem.slug && e.color === newItem.color && e.size === newItem.size)
             if (item.length > 0) {
                 state.value = state.value.filter(e => e.slug !== newItem.slug || e.color !== newItem.color || e.size !== newItem.size)
-                state.value = [
-                  ...state.value,
-                  {
-                    id: item[0].id,
-                    slug: newItem.slug,
-                    optionId: newItem.optionId,
-                    color: newItem.color,
-                    size: newItem.size,
-                    price: newItem.price,
-                    quantity: newItem.quantity,
-                    title: newItem.title,
-                    image: newItem.image,
-                  },
-                ];
+                state.value = [...state.value, newItem];
             }
             localStorage.setItem('cartItems', JSON.stringify(state.value.sort((a, b) => a.id > b.id ? 1 : (a.id < b.id ? -1 : 0))))
         },
@@ -64,10 +38,14 @@ export const cartItemsSlice = createSlice({
             state.value = state.value.filter(e => e.slug !== item.slug || e.color !== item.color || e.size !== item.size)
             localStorage.setItem('cartItems', JSON.stringify(state.value.sort((a, b) => a.id > b.id ? 1 : (a.id < b.id ? -1 : 0))))
         },
+        clearCart: (state) => {
+            state.value = []
+            localStorage.setItem('cartItems', JSON.stringify(state.value))
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { addItem, removeItem, updateItem } = cartItemsSlice.actions
+export const { addItem, removeItem, updateItem, clearCart } = cartItemsSlice.actions;
 
 export default cartItemsSlice.reducer
