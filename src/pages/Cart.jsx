@@ -61,7 +61,7 @@ const Cart = () => {
         });
       }
     }
-    if (myCart.length > 0) {
+    if (myCart.length == cartItems.length && myCart.length > 0) {
       const data = {
         bill: {
           customer_id: null,

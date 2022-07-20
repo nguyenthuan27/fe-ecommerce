@@ -62,4 +62,12 @@ export default {
     });
     return res.data;
   },
+
+  getListBill: async (userId) => {
+    const res = await customAxios({
+      method: "get",
+      url: `${serverEndpoint}/shoeswear/bill/list?customer-id=${userId}`,
+    });
+    return res.data;
+  },
 };
