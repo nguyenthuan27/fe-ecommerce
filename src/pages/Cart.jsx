@@ -16,8 +16,9 @@ const Cart = () => {
   const [quantity, setQuantity] = useState(0);
   const [selectedValue, setSelectedValue] = useState(3);
   const dispatch = useDispatch();
-  const [listProduct, setListProduct] = useState(undefined);
+  const [listProduct, setListProduct] = useState([]);
   const cartItems = useSelector((state) => state.cartItems.value);
+
   useEffect(() => {
     setListProduct(cartItems);
     setTotalPrice(

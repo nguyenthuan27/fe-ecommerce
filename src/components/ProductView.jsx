@@ -162,7 +162,7 @@ const ProductView = (props) => {
             <div className="product__info__item__list">
               {product?.list
                 ?.map((i) => i)[0]
-                ?.data[1].datadetail?.map((item, index) => (
+                ?.data[0].datadetail?.map((item, index) => (
                   <div
                     key={index}
                     className={`product__info__item__list__item ${
@@ -190,7 +190,7 @@ const ProductView = (props) => {
             <div className="product__info__item__list">
               {product?.list
                 ?.map((i) => i)[0]
-                ?.data[0].datadetail?.map((item, index) => (
+                ?.data[1].datadetail?.map((item, index) => (
                   <div
                     key={index}
                     className={`product__info__item__list__item ${
